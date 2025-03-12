@@ -2,9 +2,15 @@ import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
 
 const app = new Hono()
+const jsonCacheMap = new Map<string, any>()
 
 app.get('/', (c) => {
-  return c.text('Hello Hono!')
+  if (jsonCacheMap.has('key')) {
+    return c.text(jsonCacheMap.get('key') + ' hit!')
+  }
+  const value  = 'Hello Hono!'
+  jsonCacheMap.set('key', value)
+  return c.text(value + ' missed!')
 })
 
 serve({
