@@ -13,6 +13,12 @@ app.get('/', (c) => {
   return c.text(value + ' missed!')
 })
 
+app.get('/flush', (c) => {
+  jsonCacheMap.delete('key')
+  return c.text('flushed!')
+})
+
+
 serve({
   fetch: app.fetch,
   port: 3000
